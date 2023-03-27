@@ -1,5 +1,6 @@
 <?php
 
+define( 'WP_DEBUG', true );
 /**
  * Plugin Name: Cookie
  * Description: Plugins Basé avec Tarte_aux_citron
@@ -58,3 +59,17 @@ function tarte_au_citron_init(){
 }
 
 add_action('wp_head', 'tarte_au_citron_init');
+
+function add_plugin_menu(){
+	add_menu_page(
+		__( 'Custom Menu Title', 'textdomain' ),
+		'TarteAuCitron',
+		'manage_options',
+		'/Cookies/Cookie-admin.php',
+		'',
+		plugins_url( 'myplugin/images/icon.png' ),
+		6
+	);
+}
+
+add_action('admin_menu', 'add_plugin_menu');
