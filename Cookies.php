@@ -67,35 +67,38 @@ function add_plugin_menu(){
 		'TarteAuCitron',
 		'manage_options',
 		'TarteAuCitron_settings_page',
-		'example_settings_page_markup',
+		'example_setting_page_markup',
 		plugins_url( '' ),
-		6
+		66
 	);
 }
 
 add_action('admin_menu', 'add_plugin_menu');
 
-function example_settings_page_markup(){
+function example_setting_page_markup(){
 	?>
     <div class="wrap">
         <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-        <form action="options.php" method="POST">
+        <form action="options.php" method="post">
 			<?php
-			settings_fields( 'my_settings' );
+			settings_fields( 'example_setting' );
 			do_settings_sections( 'TarteAuCitron_settings_page' );
 			submit_button();
+			if (isset($_POST)){
+				var_dump($_POST);
+			}
 			?>
         </form>
     </div>
 	<?php
 }
 
-add_action('admin_init', 'my_settings');
+add_action('admin_init', 'example_setting');
 
-function my_settings(){
+function example_setting(){
     register_setting(
-            'Form',
-            'my_setting',
+            'example_setting',
+            'example_setting',
             'sanitize_text_field');
 
     add_settings_section(
@@ -108,7 +111,7 @@ function my_settings(){
 	add_settings_field(
 		'hashtag',                   // Field ID
 		__( 'hashtag', 'example' ),  // Title
-		'example_text_field_markup',            // Callback to display the field
+		'example_text_Hashtag_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',                // Page
 		'example_section'                      // Section
 	);
@@ -116,7 +119,7 @@ function my_settings(){
 	add_settings_field(
 		'HighPrivacy',                                       // Field ID
 		__( 'HighPrivacy', 'example' ),             // Title
-		'example_text_select_markup',            // Callback to display the field
+		'example_text_HighPrivacy_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',            // Page
 		'example_section'                       // Section
 	);
@@ -124,7 +127,7 @@ function my_settings(){
 	add_settings_field(
 		'AcceptAllCta',                                       // Field ID
 		__( 'AcceptAllCta', 'example' ),             // Title
-		'example_text_select_markup',            // Callback to display the field
+		'example_text_Accept_All_Cta_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',            // Page
 		'example_section'                       // Section
 	);
@@ -140,7 +143,7 @@ function my_settings(){
 	add_settings_field(
 		'addblocker',                                       // Field ID
 		__( 'addblocker', 'example' ),             // Title
-		'example_text_select_markup',            // Callback to display the field
+		'example_text_AddBlocker_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',            // Page
 		'example_section'                       // Section
 	);
@@ -148,7 +151,7 @@ function my_settings(){
 	add_settings_field(
 		'showAlertSmall',                                       // Field ID
 		__( 'showAlertSmall', 'example' ),             // Title
-		'example_text_select_markup',            // Callback to display the field
+		'example_text_ShowAlertSmall_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',            // Page
 		'example_section'                       // Section
 	);
@@ -156,28 +159,161 @@ function my_settings(){
 	add_settings_field(
 		'cookieslist',                                       // Field ID
 		__( 'cookieslist', 'example' ),             // Title
-		'example_text_select_markup',            // Callback to display the field
+		'example_text_CookiesList_markup',            // Callback to display the field
 		'TarteAuCitron_settings_page',            // Page
 		'example_section'                       // Section
 	);
+
+	add_settings_field(
+		'cookiesName',                                       // Field ID
+		__( 'cookiesName', 'example' ),             // Title
+		'example_text_CookiesName_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'groupServices',                                       // Field ID
+		__( 'groupServices', 'example' ),             // Title
+		'example_text_GroupServices_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'ServiceDefaultState',                                       // Field ID
+		__( 'serviceDefaultState', 'example' ),             // Title
+		'example_text_service_state_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'closePopup',                                       // Field ID
+		__( 'closePopup', 'example' ),             // Title
+		'example_text_ClosePopup_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'showIcon',                                       // Field ID
+		__( 'showIcon', 'example' ),             // Title
+		'example_text_ShowIcon_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'iconPosition',                                       // Field ID
+		__( 'iconPosition', 'example' ),             // Title
+		'example_text_icon_pos_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'DenyAllCta',                                       // Field ID
+		__( 'DenyAllCta', 'example' ),             // Title
+		'example_text_DenyAllCta_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'handleBrowserDNTRequest',                                       // Field ID
+		__( 'handleBrowserDNTRequest', 'example' ),             // Title
+		'example_text_HandleBrowser_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'removeCredit',                                       // Field ID
+		__( 'removeCredit', 'example' ),             // Title
+		'example_text_RemoveCredit_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'moreInfoLink',                                       // Field ID
+		__( 'moreInfoLink', 'example' ),             // Title
+		'example_text_MoreInfo_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'UseExternalCss',                                       // Field ID
+		__( 'UseExternalCss', 'example' ),             // Title
+		'example_text_UseExternalCss_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'UseExternalJs',                                       // Field ID
+		__( 'UseExternalJs', 'example' ),             // Title
+		'example_text_UseExternalJS_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'readMoreLink',                                       // Field ID
+		__( 'readMoreLink', 'example' ),             // Title
+		'example_text_read_more_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'madatory',                                       // Field ID
+		__( 'mandatory', 'example' ),             // Title
+		'example_text_Mandatory_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'mandatoryCta',                                       // Field ID
+		__( 'mandatoryCta', 'example' ),             // Title
+		'example_text_MandatoryCta_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
 }
 
 function example_section_markup( $args ){}
 
 
-function example_text_field_markup( $args ){
-	$setting = get_option( 'my_settings' );
+function example_text_Hashtag_markup( $args ){
+	$setting = get_option( 'example_setting' );
+
 	$value   = $setting ?: '';
+
 	?>
-    <input class="regular-text" type="text" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+    <input class="regular-text" type="text" name="Hashtag" value="<?php echo esc_attr( $value ); ?>">
 	<?php
 }
 
-function example_text_select_markup( $args ){
-	$setting = get_option( 'my_settings' );
+function example_text_read_more_markup( $args ){
+	$setting = get_option( 'example_setting' );
+
+	$value   = $setting ?: '';
+
+	?>
+    <input class="regular-text" type="text" name="ReadMore" value="<?php echo esc_attr( $value ); ?>">
+	<?php
+}
+
+function example_text_HighPrivacy_markup( $args ){
+	$setting = get_option( 'example_setting' );
 	$value   = $setting ?: '';
 	?>
-    <select class="regular-text" type="" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+    <select class="" type="" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
         <option>true</option>
         <option>false</option>
     </select>
@@ -185,10 +321,10 @@ function example_text_select_markup( $args ){
 }
 
 function example_text_orientation_markup( $args ){
-	$setting = get_option( 'my_settings' );
+	$setting = get_option( 'example_setting' );
 	$value   = $setting ?: '';
 	?>
-    <select class="regular-text" type="" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+    <select class="" type="" name="Orientation" value="<?php echo esc_attr( $value ); ?>">
         <option>top</option>
         <option>middle</option>
         <option>bottom</option>
@@ -196,3 +332,205 @@ function example_text_orientation_markup( $args ){
     </select>
 	<?php
 }
+
+function example_text_service_state_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="service_delivery_state" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>wait</option>
+        <option>false</option>
+
+    </select>
+	<?php
+}
+
+function example_text_icon_pos_markup( $args ){
+	$setting = get_option( 'example_setting');
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="Icon_Position" value="<?php echo esc_attr( $value ); ?>">
+        <option>BottomRight</option>
+        <option>BottomLeft</option>
+        <option>TopRight</option>
+        <option>TopLeft</option>
+    </select>
+	<?php
+}
+
+function example_text_Accept_All_Cta_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="AcceptAllCta" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_AddBlocker_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="AddBlocker" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_ShowAlertSmall_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="ShowAlertSmall" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_CookiesList_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="CookiesList" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_CookiesName_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="CookiesName" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_GroupServices_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="GroupServices" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_ClosePopup_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="ClosePopup" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_ShowIcon_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="ShowIcon" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_DenyAllCta_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="DenyAllCta" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_handleBrowser_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="HandlBrowserDNTRequest" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_RemoveCredit_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="RemoveCredit" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_MoreInfo_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="MoreInfo" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_UseExternalCss_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="UseExternalCss" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_UseExternalJs_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="UseExternalJs" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_Mandatory_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="Mandatory" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_MandatoryCta_markup( $args ){
+	$setting = get_option( 'example_setting' );
+	$value   = $setting ?: '';
+	?>
+    <select class="" type="" name="MandatoryCta" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+};
