@@ -9,6 +9,7 @@ define( 'WP_DEBUG', true );
  */
 
 function tarte_au_citron_init(){
+
 	?>
         <script src="wp-content/plugins/Cookies/asset/tarteaucitron.js-1.10.0/tarteaucitron.js-1.10.0/tarteaucitron.js"></script>
         <script type="text/javascript" defer>
@@ -16,7 +17,7 @@ function tarte_au_citron_init(){
                 "privacyUrl": "", /* Privacy policy url */
                 "bodyPosition": "bottom", /* or top to bring it as first element for accessibility */
 
-                "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
+                "hashtag": "<?= $_POST['hashtag'] ?>", /* Open the panel with this hashtag */
                 "cookieName": "tarteaucitron", /* Cookie name */
 
                 "orientation": "middle", /* Banner position (top - bottom) */
@@ -62,14 +63,136 @@ add_action('wp_head', 'tarte_au_citron_init');
 
 function add_plugin_menu(){
 	add_menu_page(
-		__( 'Custom Menu Title', 'textdomain' ),
+		__( 'Tarte Au Citron Parameters', 'textdomain' ),
 		'TarteAuCitron',
 		'manage_options',
-		'/Cookies/Cookie-admin.php',
-		'',
-		plugins_url( 'myplugin/images/icon.png' ),
+		'TarteAuCitron_settings_page',
+		'example_settings_page_markup',
+		plugins_url( '' ),
 		6
 	);
 }
 
 add_action('admin_menu', 'add_plugin_menu');
+
+function example_settings_page_markup(){
+	?>
+    <div class="wrap">
+        <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+        <form action="options.php" method="POST">
+			<?php
+			settings_fields( 'my_settings' );
+			do_settings_sections( 'TarteAuCitron_settings_page' );
+			submit_button();
+			?>
+        </form>
+    </div>
+	<?php
+}
+
+add_action('admin_init', 'my_settings');
+
+function my_settings(){
+    register_setting(
+            'Form',
+            'my_setting',
+            'sanitize_text_field');
+
+    add_settings_section(
+		    'example_section',                   // Section ID
+		    __( 'Fill in the contents of the Tarteaucitron init scripts', 'example' ),  // Title
+		    'example_section_markup',            // Callback or empty string
+		    'TarteAuCitron_settings_page'              // Page to display the section in.
+	);
+
+	add_settings_field(
+		'hashtag',                   // Field ID
+		__( 'hashtag', 'example' ),  // Title
+		'example_text_field_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',                // Page
+		'example_section'                      // Section
+	);
+
+	add_settings_field(
+		'HighPrivacy',                                       // Field ID
+		__( 'HighPrivacy', 'example' ),             // Title
+		'example_text_select_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'AcceptAllCta',                                       // Field ID
+		__( 'AcceptAllCta', 'example' ),             // Title
+		'example_text_select_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'orientation',                                       // Field ID
+		__( 'orientation', 'example' ),             // Title
+		'example_text_orientation_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'addblocker',                                       // Field ID
+		__( 'addblocker', 'example' ),             // Title
+		'example_text_select_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'showAlertSmall',                                       // Field ID
+		__( 'showAlertSmall', 'example' ),             // Title
+		'example_text_select_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+
+	add_settings_field(
+		'cookieslist',                                       // Field ID
+		__( 'cookieslist', 'example' ),             // Title
+		'example_text_select_markup',            // Callback to display the field
+		'TarteAuCitron_settings_page',            // Page
+		'example_section'                       // Section
+	);
+}
+
+function example_section_markup( $args ){}
+
+
+function example_text_field_markup( $args ){
+	$setting = get_option( 'my_settings' );
+	$value   = $setting ?: '';
+	?>
+    <input class="regular-text" type="text" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+	<?php
+}
+
+function example_text_select_markup( $args ){
+	$setting = get_option( 'my_settings' );
+	$value   = $setting ?: '';
+	?>
+    <select class="regular-text" type="" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+        <option>true</option>
+        <option>false</option>
+    </select>
+	<?php
+}
+
+function example_text_orientation_markup( $args ){
+	$setting = get_option( 'my_settings' );
+	$value   = $setting ?: '';
+	?>
+    <select class="regular-text" type="" name="TarteAuCitron_settings_page" value="<?php echo esc_attr( $value ); ?>">
+        <option>top</option>
+        <option>middle</option>
+        <option>bottom</option>
+
+    </select>
+	<?php
+}
