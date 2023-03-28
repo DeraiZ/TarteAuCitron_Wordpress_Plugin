@@ -10,7 +10,28 @@ define( 'WP_DEBUG', true );
  */
 
 function tarte_au_citron_init(){
-
+	$hashtag = get_option('Hashtag');
+	$read = get_option('ReadMore');
+	$highPrivacy = get_option('HighPrivacy');
+	$orientation = get_option('Orientation');
+	$addBlocker = get_option('AddBlocker');
+	$acceptAllCta = get_option('AcceptAllCta');
+	$showAlert = get_option('ShowAlertSmall');
+	$list = get_option('CookiesList');
+	$name = get_option('CookiesName');
+	$groupServices = get_option('GroupServices');
+	$state = get_option('service_default_state');
+	$popup = get_option('ClosePopup');
+	$showIcon = get_option('ShowIcon');
+	$pos = get_option('Icon_Position');
+	$deny = get_option('DenyAllCta');
+	$handlBrowser = get_option('HandlBrowserDNTRequest');
+	$remove = get_option('RemoveCredit');
+	$moreInfo = get_option('MoreInfo');
+	$css = get_option('UseExternalCss');
+	$js = get_option('UseExternalJs');
+	$mandatory = get_option('Mandatory');
+	$mandatoryCta = get_option('MandatoryCta');
 	?>
         <script src="wp-content/plugins/Cookies/asset/tarteaucitron.js-1.10.0/tarteaucitron.js-1.10.0/tarteaucitron.js"></script>
         <script type="text/javascript" defer>
@@ -18,43 +39,43 @@ function tarte_au_citron_init(){
                 "privacyUrl": "", /* Privacy policy url */
                 "bodyPosition": "bottom", /* or top to bring it as first element for accessibility */
 
-                "hashtag": "<?= $_POST['hashtag'] ?>", /* Open the panel with this hashtag */
-                "cookieName": "tarteaucitron", /* Cookie name */
+                "hashtag": "<?= $hashtag ?>", /* Open the panel with this hashtag */
+                "cookieName": "<?= $name ?>", /* Cookie name */
 
-                "orientation": "middle", /* Banner position (top - bottom) */
+                "orientation": "<?= $orientation ?>", /* Banner position (top - bottom) */
 
-                "groupServices": false, /* Group services by category */
-                "serviceDefaultState": "wait", /* Default state (true - wait - false) */
+                "groupServices": <?= $groupServices ?>, /* Group services by category */
+                "serviceDefaultState": "<?= $state ?>", /* Default state (true - wait - false) */
 
-                "showAlertSmall": false, /* Show the small banner on bottom right */
-                "cookieslist": false, /* Show the cookie list */
+                "showAlertSmall": <?= $showAlert ?>, /* Show the small banner on bottom right */
+                "cookieslist": <?= $list ?>, /* Show the cookie list */
 
-                "closePopup": false, /* Show a close X on the banner */
+                "closePopup": <?= $popup ?>, /* Show a close X on the banner */
 
-                "showIcon": true, /* Show cookie icon to manage cookies */
+                "showIcon": <?= $showIcon ?>, /* Show cookie icon to manage cookies */
                 //"iconSrc": "", /* Optionnal: URL or base64 encoded image */
-                "iconPosition": "BottomRight", /* BottomRight, BottomLeft, TopRight and TopLeft */
+                "iconPosition": "<?= $pos ?>", /* BottomRight, BottomLeft, TopRight and TopLeft */
 
-                "adblocker": false, /* Show a Warning if an adblocker is detected */
+                "adblocker": <?= $addBlocker ?>, /* Show a Warning if an adblocker is detected */
 
-                "DenyAllCta" : true, /* Show the deny all button */
-                "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
-                "highPrivacy": true, /* HIGHLY RECOMMANDED Disable auto consent */
+                "DenyAllCta" : <?= $deny ?>, /* Show the deny all button */
+                "AcceptAllCta" : <?= $acceptAllCta ?>, /* Show the accept all button when highPrivacy on */
+                "highPrivacy": <?= $highPrivacy ?>, /* HIGHLY RECOMMANDED Disable auto consent */
 
-                "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+                "handleBrowserDNTRequest": <?= $handlBrowser ?>, /* If Do Not Track == 1, disallow all */
 
-                "removeCredit": false, /* Remove credit link */
-                "moreInfoLink": true, /* Show more info link */
+                "removeCredit": <?= $remove ?>, /* Remove credit link */
+                "moreInfoLink": <?= $moreInfo ?>, /* Show more info link */
 
-                "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
-                "useExternalJs": false, /* If false, the tarteaucitron.js file will be loaded */
+                "useExternalCss": <?= $css ?>, /* If false, the tarteaucitron.css file will be loaded */
+                "useExternalJs": <?= $js ?>, /* If false, the tarteaucitron.js file will be loaded */
 
                 //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for multisite */
 
-                "readmoreLink": "", /* Change the default readmore link */
+                "readmoreLink": "<?= $read ?>", /* Change the default readmore link */
 
-                "mandatory": true, /* Show a message about mandatory cookies */
-                "mandatoryCta": true /* Show the disabled accept button when mandatory on */
+                "mandatory": <?= $mandatory ?>, /* Show a message about mandatory cookies */
+                "mandatoryCta": <?= $mandatoryCta ?> /* Show the disabled accept button when mandatory on */
             });
         </script>;
 		<?php
@@ -85,9 +106,6 @@ function example_setting_page_markup(){
 			settings_fields( 'citron_setting' );
 			do_settings_sections( 'TarteAuCitron_settings_page' );
 			submit_button();
-			if (isset($_POST)){
-
-            }
 			?>
         </form>
     </div>
@@ -515,10 +533,8 @@ function example_text_CookiesName_markup( $args ){
 	$setting = get_option( 'CookiesName' );
 	$value   = $setting ?: '';
 	?>
-    <select class="" type="" name="CookiesName" value="<?php echo esc_attr( $value ); ?>">
-        <option>true</option>
-        <option>false</option>
-    </select>
+    <input class="regular-text" type="" name="CookiesName" value="<?php echo esc_attr( $value ); ?>">
+
 	<?php
 }
 
